@@ -15,6 +15,7 @@ import com.yupi.web.model.dto.file.UploadFileRequest;
 import com.yupi.web.model.entity.User;
 import com.yupi.web.model.enums.FileUploadBizEnum;
 import com.yupi.web.service.UserService;
+import io.github.pixee.security.Filenames;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +55,7 @@ public class FileController {
     @PostMapping("/test/upload")
     public BaseResponse<String> testUploadFile(@RequestPart("file") MultipartFile multipartFile) {
         // 文件目录
-        String filename = multipartFile.getOriginalFilename();
+        String filename = Filenames.toSimpleFileName(multipartFile.getOriginalFilename());
         String filepath = String.format("/test/%s", filename);
         File file = null;
         try {
@@ -130,7 +131,7 @@ public class FileController {
         User loginUser = userService.getLoginUser(request);
         // 文件目录：根据业务、用户来划分
         String uuid = RandomStringUtils.randomAlphanumeric(8);
-        String filename = uuid + "-" + multipartFile.getOriginalFilename();
+        String filename = uuid + "-" + Filenames.toSimpleFileName(multipartFile.getOriginalFilename());
         String filepath = String.format("/%s/%s/%s", fileUploadBizEnum.getValue(), loginUser.getId(), filename);
         File file = null;
         try {
@@ -164,7 +165,7 @@ public class FileController {
         // 文件大小
         long fileSize = multipartFile.getSize();
         // 文件后缀
-        String fileSuffix = FileUtil.getSuffix(multipartFile.getOriginalFilename());
+        String fileSuffix = FileUtil.getSuffix(Filenames.toSimpleFileName(multipartFile.getOriginalFilename()));
         final long ONE_M = 1024 * 1024L;
         if (FileUploadBizEnum.USER_AVATAR.equals(fileUploadBizEnum)) {
             if (fileSize > ONE_M) {
