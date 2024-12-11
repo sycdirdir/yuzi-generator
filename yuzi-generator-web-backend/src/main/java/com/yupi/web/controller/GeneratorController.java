@@ -33,6 +33,7 @@ import com.yupi.web.model.entity.User;
 import com.yupi.web.model.vo.GeneratorVO;
 import com.yupi.web.service.GeneratorService;
 import com.yupi.web.service.UserService;
+import io.github.pixee.security.Newlines;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StopWatch;
@@ -363,7 +364,7 @@ public class GeneratorController {
 
         // 设置响应头
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename=" + filepath);
+        response.setHeader("Content-Disposition", Newlines.stripAll("attachment; filename=" + filepath));
 
         String zipFilePath = getCacheFilePath(id, filepath);
         if (FileUtil.exist(zipFilePath)) {
@@ -531,7 +532,7 @@ public class GeneratorController {
 
         // 设置响应头
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename=" + resultFile.getName());
+        response.setHeader("Content-Disposition", Newlines.stripAll("attachment; filename=" + resultFile.getName()));
         Files.copy(resultFile.toPath(), response.getOutputStream());
 
         // 清理文件
@@ -610,7 +611,7 @@ public class GeneratorController {
 
         // 设置响应头
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename=" + zipFileName);
+        response.setHeader("Content-Disposition", Newlines.stripAll("attachment; filename=" + zipFileName));
         Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
 
         // 7）清理工作空间的文件
