@@ -33,6 +33,7 @@ import com.yupi.web.model.entity.User;
 import com.yupi.web.model.vo.GeneratorVO;
 import com.yupi.web.service.GeneratorService;
 import com.yupi.web.service.UserService;
+import io.github.pixee.security.BoundedLineReader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StopWatch;
@@ -512,7 +513,7 @@ public class GeneratorController {
             InputStream inputStream = process.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 System.out.println(line);
             }
 
