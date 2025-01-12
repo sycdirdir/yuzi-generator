@@ -15,6 +15,7 @@ import com.yupi.web.model.dto.file.UploadFileRequest;
 import com.yupi.web.model.entity.User;
 import com.yupi.web.model.enums.FileUploadBizEnum;
 import com.yupi.web.service.UserService;
+import java.nio.file.Files;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +60,7 @@ public class FileController {
         File file = null;
         try {
             // 上传文件
-            file = File.createTempFile(filepath, null);
+            file = Files.createTempFile(filepath, null).toFile();
             multipartFile.transferTo(file);
             cosManager.putObject(filepath, file);
             // 返回可访问地址
@@ -135,7 +136,7 @@ public class FileController {
         File file = null;
         try {
             // 上传文件
-            file = File.createTempFile(filepath, null);
+            file = Files.createTempFile(filepath, null).toFile();
             multipartFile.transferTo(file);
             cosManager.putObject(filepath, file);
             // 返回可访问地址
