@@ -12,7 +12,8 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+  <versions.java-security-toolkit>1.2.1</versions.java-security-toolkit>
+ </properties>
 
     <dependencies>
         <!-- https://freemarker.apache.org/index.html -->
@@ -52,7 +53,11 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+  <dependency>
+   <groupId>io.github.pixee</groupId>
+   <artifactId>java-security-toolkit</artifactId>
+  </dependency>
+ </dependencies>
 
     <build>
         <plugins>
@@ -81,4 +86,13 @@
             </plugin>
         </plugins>
     </build>
+ <dependencyManagement>
+  <dependencies>
+   <dependency>
+    <groupId>io.github.pixee</groupId>
+    <artifactId>java-security-toolkit</artifactId>
+    <version>${versions.java-security-toolkit}</version>
+   </dependency>
+  </dependencies>
+ </dependencyManagement>
 </project>
