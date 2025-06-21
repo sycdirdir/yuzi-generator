@@ -15,6 +15,7 @@ import com.yupi.web.model.dto.file.UploadFileRequest;
 import com.yupi.web.model.entity.User;
 import com.yupi.web.model.enums.FileUploadBizEnum;
 import com.yupi.web.service.UserService;
+import io.github.pixee.security.Newlines;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -96,7 +97,7 @@ public class FileController {
             byte[] bytes = IOUtils.toByteArray(cosObjectInput);
             // 设置响应头
             response.setContentType("application/octet-stream");
-            response.setHeader("Content-Disposition", "attachment; filename=" + filepath);
+            response.setHeader("Content-Disposition", Newlines.stripAll("attachment; filename=" + filepath));
             // 写入响应
             response.getOutputStream().write(bytes);
             response.getOutputStream().flush();
