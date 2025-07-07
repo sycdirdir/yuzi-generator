@@ -1,5 +1,6 @@
 package com.yupi.maker.generator;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.*;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class JarGenerator {
         InputStream inputStream = process.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             System.out.println(line);
         }
 
